@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
+import { AuthSandbox } from 'app/core/auth/auth.sandbox';
 import { AuthService } from 'app/core/auth/auth.service';
 
 @Component({
@@ -28,6 +29,7 @@ export class AuthSignInComponent implements OnInit
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
+        private _authSandbox: AuthSandbox,
         private _formBuilder: FormBuilder,
         private _router: Router
     )
@@ -55,9 +57,6 @@ export class AuthSignInComponent implements OnInit
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Sign in
-     */
     signIn(): void
     {
         // Return if the form is invalid
@@ -72,38 +71,48 @@ export class AuthSignInComponent implements OnInit
         // Hide the alert
         this.showAlert = false;
 
+        console.log(this.signInForm.value);
+
+        this._authSandbox.signIn(this.signInForm.value);
+        this._authSandbox.getSignInLoaded$.subscribe(signin => {
+            if (!!signin) {
+                const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                this._router.navigateByUrl(redirectURL);
+            }
+        })
+
         // Sign in
-        this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () => {
+    //     this._authService.signIn(this.signInForm.value)
+    //         .subscribe(
+    //             () => {
 
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+    //                 // Set the redirect url.
+    //                 // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
+    //                 // to the correct page after a successful sign in. This way, that url can be set via
+    //                 // routing file and we don't have to touch here.
+    //                 const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
+    //                 // Navigate to the redirect url
+    //                 this._router.navigateByUrl(redirectURL);
 
-                },
-                (response) => {
+    //             },
+    //             (response) => {
 
-                    // Re-enable the form
-                    this.signInForm.enable();
+    //                 // Re-enable the form
+    //                 this.signInForm.enable();
 
-                    // Reset the form
-                    this.signInNgForm.resetForm();
+    //                 // Reset the form
+    //                 this.signInNgForm.resetForm();
 
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Wrong email or password'
-                    };
+    //                 // Set the alert
+    //                 this.alert = {
+    //                     type   : 'error',
+    //                     message: 'Wrong email or password'
+    //                 };
 
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
+    //                 // Show the alert
+    //                 this.showAlert = true;
+    //             }
+    //         );
     }
 }

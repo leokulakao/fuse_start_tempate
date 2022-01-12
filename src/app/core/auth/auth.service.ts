@@ -3,37 +3,89 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'environments/environment';
+import { SignInModel } from './models/SignInModel';
 
 @Injectable()
 export class AuthService
 {
     private _authenticated: boolean = false;
+    private _env: any;
 
-    /**
-     * Constructor
-     */
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService
-    )
-    {
+    ) {
+        this._env = environment
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for access token
-     */
-    set accessToken(token: string)
-    {
+    set accessToken(token: string) {
         localStorage.setItem('accessToken', token);
     }
 
-    get accessToken(): string
-    {
+    get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    set refreshToken(token: string) {
+        localStorage.setItem('refreshToken', token);
+    }
+
+    get refreshToken(): string {
+        return localStorage.getItem('refreshToken');
+    }
+
+
+    public login (params: SignInModel): Observable<any> {
+        return this._httpClient.post(this._env.API + 'api/auth/signin', params).pipe(
+            switchMap((response: any) => {
+
+                // Store the access token in the local storage
+                this.accessToken = response.accessToken;
+                this.refreshToken = response.refreshToken;
+
+                // Set the authenticated flag to true
+                this._authenticated = true;
+
+                // Store the user on the user service
+                const mockUser = {
+                    id: '123',
+                    name: 'Lev Kulakov Mock',
+                    email: 'test@test.com'
+                }
+                this._userService.user = mockUser;
+
+                // Return a new observable with the response
+                return of(response);
+            })
+        );
+    }
+
+    public refreshTokenFunc(): Observable<any> {
+        return this._httpClient.post(this._env.API + 'api/auth/refresh-token', {refreshToken: this.refreshToken}).pipe(
+            switchMap((response: any) => {
+
+                console.log(response);
+
+                // Store the access token in the local storage
+                this.accessToken = response.accesToken;
+                this.refreshToken = response.refreshToken;
+
+                // Set the authenticated flag to true
+                this._authenticated = true;
+
+                // Store the user on the user service
+                const mockUser = {
+                    id: '123',
+                    name: 'Lev Kulakov Mock',
+                    email: 'test@test.com'
+                }
+                this._userService.user = mockUser;
+
+                // Return a new observable with the response
+                return of(response);
+            })
+        );;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -74,6 +126,11 @@ export class AuthService
         }
 
         return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+            catchError(() =>
+
+                // Return false
+                of(false)
+            ),
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
@@ -83,7 +140,12 @@ export class AuthService
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                const mockUser = {
+                    id: '123',
+                    name: 'Lev Kulakov Mock',
+                    email: 'test@test.com'
+                }
+                this._userService.user = mockUser;
 
                 // Return a new observable with the response
                 return of(response);
@@ -181,6 +243,6 @@ export class AuthService
         }
 
         // If the access token exists and it didn't expire, sign in using it
-        return this.signInUsingToken();
+        return this.refreshTokenFunc();
     }
 }

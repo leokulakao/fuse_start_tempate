@@ -1,8 +1,6 @@
 import * as actions from './auth.action';
 import { AuthState, authRecord } from './auth.state';
 
-import { AuthService } from './auth.service';
-
 export const initialState: AuthState = (new authRecord() as unknown) as AuthState;
 
 export function reducer(

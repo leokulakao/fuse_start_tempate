@@ -6,9 +6,15 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './reducer.interface';
 
+import { SocketService } from '../core/socket/socket.service';
+
 import { AuthSandbox } from './auth/auth.sandbox';
 import { AuthService } from './auth/auth.service';
 import { AuthEffects } from './auth/auth.effect';
+
+import { WhatsappSandbox } from './whatsapp/whatsapp.sandbox';
+import { WhatsappService } from './whatsapp/whatsapp.service';
+import { WhatsappEffects } from './whatsapp/whatsapp.effect';
 
 @NgModule({
     imports: [
@@ -17,12 +23,16 @@ import { AuthEffects } from './auth/auth.effect';
         TranslocoCoreModule,
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot([
-            AuthEffects
+            AuthEffects,
+            WhatsappEffects
         ]),
     ],
     providers: [
+        SocketService,
         AuthSandbox,
         AuthService,
+        WhatsappSandbox,
+        WhatsappService
     ]
 })
 export class CoreModule

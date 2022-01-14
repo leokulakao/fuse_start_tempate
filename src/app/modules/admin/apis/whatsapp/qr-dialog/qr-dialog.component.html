@@ -1,0 +1,7 @@
+<ng-container *ngIf="qrcode_str.length != 0">
+  <qr-code [value]="qrcode_str" [size]="300"></qr-code>
+</ng-container>
+<ng-container *ngIf="qrcode_str.length == 0">
+  Loading...
+</ng-container>
+<button mat-button (click)="dialogRef.close()">Close</button>

@@ -1,0 +1,96 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+  <!-- Header -->
+  <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 min-w-0">
+          <!-- Breadcrumbs -->
+          <div class="flex flex-wrap items-center font-medium">
+              <div>
+                  <a class="whitespace-nowrap text-primary-500">APIS</a>
+              </div>
+          </div>
+          <!-- Title -->
+          <div class="mt-2">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  WhatsApp
+              </h2>
+          </div>
+      </div>
+      <!-- Actions -->
+      <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        <mat-icon svgIcon="heroicons_outline:phone"></mat-icon>
+        <div class="flex w-44 mx-2">
+            <ng-container *ngIf="_whatsappSandbox.getAuthLoading$ | async">
+                <mat-progress-bar mode="buffer"></mat-progress-bar>
+            </ng-container>
+            <ng-container *ngIf="_whatsappSandbox.getAuthLoaded$ | async">
+                <mat-progress-bar class="green-progress" mode="determinate" value="100"></mat-progress-bar>
+            </ng-container>
+            <ng-container *ngIf="_whatsappSandbox.getAuthFail$ | async">
+                <mat-progress-bar class="red-progress" mode="determinate" value="100"></mat-progress-bar>
+            </ng-container>
+        </div>
+          
+          <mat-icon svgIcon="heroicons_outline:server"></mat-icon>
+      </div>
+      <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        
+          <button
+              (click)="openDialog()"
+              mat-flat-button
+              target="_blank"
+              [color]="'primary'"
+              [disabled]="(_whatsappSandbox.getAuthLoading$ | async) || (_whatsappSandbox.getAuthLoaded$ | async)">
+              
+              <mat-icon
+                  class="icon-size-5 mr-2"
+                  [svgIcon]="'heroicons_outline:qrcode'"></mat-icon>
+            <ng-container *ngIf="_whatsappSandbox.getAuthLoading$ | async">
+                Checking...
+            </ng-container>
+            <ng-container *ngIf="_whatsappSandbox.getAuthLoaded$ | async">
+                Conected
+            </ng-container>
+            <ng-container *ngIf="_whatsappSandbox.getAuthFail$ | async">
+                Connect
+            </ng-container>
+      </button>
+      </div>
+  </div>
+
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+
+      <div class="max-w-4xl prose prose-sm">
+
+          <p>
+              Fuse uses
+              <a
+                  class="link"
+                  href="https://material.angular.io/components/categories"
+                  rel="noreferrer"
+                  target="_blank">Angular Material
+              </a>
+              as its primary user interface library. It offers form controls,
+              buttons, tabs, sidebars, icons, modals, tooltips, data tables and many more well tested and
+              widely used components.
+          </p>
+          <p>
+              Even though Fuse doesn't follow Google's Material design specifications, Angular Material
+              is one of the best Angular component libraries out there and since it's developed and maintained
+              by Google itself, it offers the best compatibility and support for Angular.
+          </p>
+          <p>
+              Fuse is 100% compatible with all Angular Material components.
+          </p>
+
+          <h2>Component examples and API documentation</h2>
+          <p>
+              Following, you can find links to the official documentation. Click on the component you want to
+              learn more about and it will redirect you to the related section of the official documentation.
+          </p>
+      </div>
+
+  </div>
+
+</div>

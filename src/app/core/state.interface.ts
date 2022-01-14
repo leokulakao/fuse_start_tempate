@@ -1,5 +1,7 @@
 import { AuthState } from './auth/auth.state';
+import { WhatsappState } from './whatsapp/whatsapp.state';
 
 export interface AppState {
-  auth: AuthState
+  auth: AuthState,
+  whatsapp: WhatsappState
 }

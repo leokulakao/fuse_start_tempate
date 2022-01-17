@@ -36,7 +36,7 @@ export class AuthService
     }
 
 
-    public login (params: SignInModel): Observable<any> {
+    public signIn (params: SignInModel): Observable<any> {
         return this._httpClient.post(this._env.API + 'api/auth/signin', params).pipe(
             switchMap((response: any) => {
 
@@ -61,6 +61,10 @@ export class AuthService
         );
     }
 
+    public signUp (params: any): Observable<any> {
+        return this._httpClient.post(this._env.API + 'api/auth/signup', params);
+    }
+
     public refreshTokenFunc(): Observable<any> {
         return this._httpClient.post(this._env.API + 'api/auth/refresh-token', {refreshToken: this.refreshToken}).pipe(
             switchMap((response: any) => {
@@ -68,7 +72,7 @@ export class AuthService
                 console.log(response);
 
                 // Store the access token in the local storage
-                this.accessToken = response.accesToken;
+                this.accessToken = response.accessToken;
                 this.refreshToken = response.refreshToken;
 
                 // Set the authenticated flag to true
@@ -112,46 +116,46 @@ export class AuthService
         return this._httpClient.post('api/auth/reset-password', password);
     }
 
-    /**
-     * Sign in
-     *
-     * @param credentials
-     */
-    signIn(credentials: { email: string; password: string }): Observable<any>
-    {
-        // Throw error, if the user is already logged in
-        if ( this._authenticated )
-        {
-            return throwError('User is already logged in.');
-        }
+    // /**
+    //  * Sign in
+    //  *
+    //  * @param credentials
+    //  */
+    // signIn(credentials: { email: string; password: string }): Observable<any>
+    // {
+    //     // Throw error, if the user is already logged in
+    //     if ( this._authenticated )
+    //     {
+    //         return throwError('User is already logged in.');
+    //     }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-            catchError(() =>
+    //     return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+    //         catchError(() =>
 
-                // Return false
-                of(false)
-            ),
-            switchMap((response: any) => {
+    //             // Return false
+    //             of(false)
+    //         ),
+    //         switchMap((response: any) => {
 
-                // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+    //             // Store the access token in the local storage
+    //             this.accessToken = response.accessToken;
 
-                // Set the authenticated flag to true
-                this._authenticated = true;
+    //             // Set the authenticated flag to true
+    //             this._authenticated = true;
 
-                // Store the user on the user service
-                const mockUser = {
-                    id: '123',
-                    name: 'Lev Kulakov Mock',
-                    email: 'test@test.com'
-                }
-                this._userService.user = mockUser;
+    //             // Store the user on the user service
+    //             const mockUser = {
+    //                 id: '123',
+    //                 name: 'Lev Kulakov Mock',
+    //                 email: 'test@test.com'
+    //             }
+    //             this._userService.user = mockUser;
 
-                // Return a new observable with the response
-                return of(response);
-            })
-        );
-    }
+    //             // Return a new observable with the response
+    //             return of(response);
+    //         })
+    //     );
+    // }
 
     /**
      * Sign in using the access token
@@ -200,15 +204,15 @@ export class AuthService
         return of(true);
     }
 
-    /**
-     * Sign up
-     *
-     * @param user
-     */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/sign-up', user);
-    }
+    // /**
+    //  * Sign up
+    //  *
+    //  * @param user
+    //  */
+    // signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
+    // {
+    //     return this._httpClient.post('api/auth/sign-up', user);
+    // }
 
     /**
      * Unlock session

@@ -23,8 +23,8 @@ export function reducer(
       return Object.assign({}, state,{
         auth: payload,
         authLoading: false,
-        authLoaded: false,
-        authFail: true
+        authLoaded: true,
+        authFail: false
       })
     }
     case actions.ActionTypes.AUTH_FAIL: {

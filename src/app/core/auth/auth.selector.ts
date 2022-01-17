@@ -11,9 +11,10 @@ export const getSignInLoading = createSelector(getState, fromAuth.getSignInLoadi
 export const getSignInLoaded = createSelector(getState, fromAuth.getSignInLoaded);
 export const getSignInFail = createSelector(getState, fromAuth.getSignInFail);
 
-export const getregisterLoading = createSelector(getState, fromAuth.getRegisterLoading)
-export const getregisterLoaded = createSelector(getState, fromAuth.getRegisterLoaded)
-export const getregisterFailed = createSelector(getState, fromAuth.getRegisterFailed)
+export const getSignUpData = createSelector(getState, fromAuth.getSignUpData);
+export const getSignUpLoading = createSelector(getState, fromAuth.getSignUpLoading);
+export const getSignUpLoaded = createSelector(getState, fromAuth.getSignUpLoaded)
+export const getSignUpFailed = createSelector(getState, fromAuth.getSignUpFailed)
 
 export const resetPassword = createSelector(getState, fromAuth.resetPassword);
 export const resetPasswordLoading = createSelector(getState, fromAuth.resetPasswordLoading);

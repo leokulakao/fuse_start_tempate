@@ -7,9 +7,10 @@ export interface AuthState extends Map<string, AuthState> {
   signInLoaded: boolean;
   signInFail: boolean;
 
-  registerLoading: boolean;
-  registerLoaded: boolean;
-  registerFailed: boolean;
+  signUp: any;
+  signUpLoading: boolean;
+  signUpLoaded: boolean;
+  signUpFailed: boolean;
 
   resetPassword: any;
   resetPasswordLoading: boolean;
@@ -29,9 +30,10 @@ export const authRecord = Record({
   signInLoaded: false,
   signInFail: false,
 
-  registerLoading: false,
-  registerLoaded: false,
-  registerFailed: false,
+  signUp: null,
+  signUpLoading: false,
+  signUpLoaded: false,
+  signUpFailed: false,
 
   resetPassword: [],
   resetPasswordLoading: false,

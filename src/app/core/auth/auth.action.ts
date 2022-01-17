@@ -10,9 +10,9 @@ export const ActionTypes = {
   SIGNIN_SUCCESS: type('[signin] do signin success'),
   SIGNIN_FAIL: type('[signin] do signin fail'),
 
-  REGISTER: type('[login] do register'),
-  REGISTER_SUCCESS: type('[login] do register success'),
-  REGISTER_FAIL: type('[login] do register fail'),
+  SIGNUP: type('[signup] do signup'),
+  SIGNUP_SUCCESS: type('[signup] do signup success'),
+  SIGNUP_FAIL: type('[signup] do signup fail'),
 
   RESET_PASSWORD: type('[login] do reset password'),
   RESET_PASSWORD_SUCCESS: type('[login] do reset password success'),
@@ -41,16 +41,16 @@ export class SignInFailAction implements Action {
 }
 
 
-export class RegisterAction implements Action {
-  type = ActionTypes.REGISTER
+export class SignUpAction implements Action {
+  type = ActionTypes.SIGNUP
   constructor(public payload: any) {}
 }
-export class RegisterSuccessAction implements Action {
-  type = ActionTypes.REGISTER_SUCCESS
+export class SignUpSuccessAction implements Action {
+  type = ActionTypes.SIGNUP_SUCCESS
   constructor(public payload: any) {}
 }
-export class RegisterFailAction implements Action {
-  type = ActionTypes.REGISTER_FAIL
+export class SignUpFailAction implements Action {
+  type = ActionTypes.SIGNUP_FAIL
   constructor(public payload: any) {}
 }
 
@@ -84,9 +84,9 @@ export type Actions =
 SignInAction
   | SignInSuccessAction
   | SignInFailAction
-  | RegisterAction
-  | RegisterSuccessAction
-  | RegisterFailAction
+  | SignUpAction
+  | SignUpSuccessAction
+  | SignUpFailAction
   | ResetPasswordAction
   | ResetPasswordSuccess
   | ResetPasswordFail

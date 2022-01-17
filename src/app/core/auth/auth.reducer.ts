@@ -40,32 +40,33 @@ export function reducer(
     case actions.ActionTypes.SIGNIN_FAIL: {
       return Object.assign({}, state,{
         signInLoading: false,
-        signInLoaded: true,
+        signInLoaded: false,
         signInFail: true
       })
     }
 
-    case actions.ActionTypes.REGISTER: {
+    case actions.ActionTypes.SIGNUP: {
       return Object.assign({}, state, {
-          registerLoading: true,
-          registerLoaded: false,
-          registerFailed: false
+          signUpLoading: true,
+          signUpLoaded: false,
+          signUpFailed: false
       });
   }
 
-  case actions.ActionTypes.REGISTER_SUCCESS: {
+  case actions.ActionTypes.SIGNUP_SUCCESS: {
     console.log('[REGISTER_SUCCESS] ->', payload);
       return Object.assign({}, state, {
-          registerLoading: false,
-          registerLoaded: true,
-          registerFailed: false
+          signUp: payload,
+          signUpLoading: false,
+          signUpLoaded: true,
+          signUpFailed: false
       });
   }
-  case actions.ActionTypes.REGISTER_FAIL: {
+  case actions.ActionTypes.SIGNUP_FAIL: {
       return Object.assign({}, state, {
-          registerLoading: false,
-          registerLoaded: true,
-          registerFailed: true
+          signUpLoading: false,
+          signUpLoaded: false,
+          signUpFailed: true
       });
   }
 
@@ -132,9 +133,10 @@ export const getSignInLoading = (state: AuthState) => state.signInLoading;
 export const getSignInLoaded = (state: AuthState) => state.signInLoaded;
 export const getSignInFail = (state: AuthState) => state.signInFail;
 
-export const getRegisterLoading = (state: AuthState) => state.registerLoading
-export const getRegisterLoaded = (state: AuthState) => state.registerLoaded
-export const getRegisterFailed = (state: AuthState) => state.registerFailed
+export const getSignUpData = (state: AuthState) => state.signUp;
+export const getSignUpLoading = (state: AuthState) => state.signUpLoading;
+export const getSignUpLoaded = (state: AuthState) => state.signUpLoaded;
+export const getSignUpFailed = (state: AuthState) => state.signUpFailed;
 
 export const resetPassword = (state: AuthState) => state.resetPassword;
 export const resetPasswordLoading = (state: AuthState) => state.resetPasswordLoading;

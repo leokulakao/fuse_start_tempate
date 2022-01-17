@@ -33,7 +33,7 @@
                 [formGroup]="signUpForm">
 
                 <!-- Name field -->
-                <mat-form-field class="w-full">
+                <!-- <mat-form-field class="w-full">
                     <mat-label>Full name</mat-label>
                     <input
                         id="name"
@@ -42,7 +42,7 @@
                     <mat-error *ngIf="signUpForm.get('name').hasError('required')">
                         Full name is required
                     </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
@@ -88,16 +88,16 @@
                 </mat-form-field>
 
                 <!-- Company field -->
-                <mat-form-field class="w-full">
+                <!-- <mat-form-field class="w-full">
                     <mat-label>Company</mat-label>
                     <input
                         id="company-confirm"
                         matInput
                         [formControlName]="'company'">
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <!-- ToS and PP -->
-                <div class="inline-flex items-end w-full mt-1.5">
+                <!-- <div class="inline-flex items-end w-full mt-1.5">
                     <mat-checkbox
                         [color]="'primary'"
                         [formControlName]="'agreements'">
@@ -112,7 +112,7 @@
                             [routerLink]="['./']">Privacy Policy
                         </a>
                     </mat-checkbox>
-                </div>
+                </div> -->
 
                 <!-- Submit button -->
                 <button

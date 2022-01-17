@@ -17,23 +17,23 @@ export class AuthEffects {
         ofType(actions.ActionTypes.SIGNIN),
         map((action: actions.SignInAction) => action.payload),
         switchMap(state => {
-            return this.authService.login(state).pipe(
+            return this.authService.signIn(state).pipe(
                 map(data => new actions.SignInSuccessAction(data)),
                 catchError(err => of(new actions.SignInFailAction(err)))
             );
         })
     ));
 
-    // registerUser$ = createEffect(() => this.actions$.pipe(
-    //     ofType(actions.ActionTypes.REGISTER),
-    //     map((action: actions.RegisterAction) => action.payload),
-    //     switchMap(state => {
-    //         return this.authService.register(state).pipe(
-    //             map(data => new actions.RegisterSuccessAction(data)),
-    //             catchError(err => of(new actions.RegisterFailAction(err)))
-    //         );
-    //     })
-    // ));
+    signUpUser$ = createEffect(() => this.actions$.pipe(
+        ofType(actions.ActionTypes.SIGNUP),
+        map((action: actions.SignUpAction) => action.payload),
+        switchMap(state => {
+            return this.authService.signUp(state).pipe(
+                map(data => new actions.SignUpSuccessAction(data)),
+                catchError(err => of(new actions.SignUpFailAction(err)))
+            );
+        })
+    ));
 
     // resetpassword$ = createEffect(() => this.actions$.pipe(
     //     ofType(actions.ActionTypes.RESET_PASSWORD),

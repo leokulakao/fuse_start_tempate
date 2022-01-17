@@ -15,9 +15,10 @@ import {
   getSignInLoading,
   getSignInLoaded,
   getSignInFail,
-  getregisterLoading,
-  getregisterLoaded,
-  getregisterFailed,
+  getSignUpData,
+  getSignUpLoading,
+  getSignUpLoaded,
+  getSignUpFailed,
   resetPassword,
   resetPasswordLoading,
   resetPasswordFailed,
@@ -34,9 +35,10 @@ export class AuthSandbox {
   public getSignInLoaded$ = this.appState$.select(getSignInLoaded);
   public getSignInFail$ = this.appState$.select(getSignInFail);
 
-  public registerLoading$ = this.appState$.select(getregisterLoading);
-  public registerLoaded$ = this.appState$.select(getregisterLoaded);
-  public registerFailed$ = this.appState$.select(getregisterFailed);
+  public getSignUpData$ = this.appState$.select(getSignUpData);
+  public getSignUpLoading$ = this.appState$.select(getSignUpLoading);
+  public getSignUpLoaded$ = this.appState$.select(getSignUpLoaded);
+  public getSignUpFailed$ = this.appState$.select(getSignUpFailed);
 
   public resetPassword$ = this.appState$.select(resetPassword);
   public resetPasswordLoading$ = this.appState$.select(resetPasswordLoading);
@@ -60,12 +62,12 @@ export class AuthSandbox {
     this.appState$.dispatch(new authAction.SignInAction(new SignInModel (params)));
   }
 
-  public isAuth(): boolean {
-    return !!localStorage.getItem('accessToken') ? true : false;
-  }
+  // public isAuth(): boolean {
+  //   return !!localStorage.getItem('accessToken') ? true : false;
+  // }
   
-  public register(params:any): void {
-    this.appState$.dispatch(new authAction.RegisterAction(params));
+  public signUp(params:any): void {
+    this.appState$.dispatch(new authAction.SignUpAction(params));
   }
 
   public resetPassword(params:any): void {

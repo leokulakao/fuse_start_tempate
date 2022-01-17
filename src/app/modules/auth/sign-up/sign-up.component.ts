@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from 'app/core/auth/auth.service';
+import { AuthSandbox } from 'app/core/auth/auth.sandbox';
 
 @Component({
     selector     : 'auth-sign-up',
@@ -26,7 +26,7 @@ export class AuthSignUpComponent implements OnInit
      * Constructor
      */
     constructor(
-        private _authService: AuthService,
+        private _authSandbox: AuthSandbox,
         private _formBuilder: FormBuilder,
         private _router: Router
     )
@@ -44,11 +44,11 @@ export class AuthSignUpComponent implements OnInit
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-                name      : ['', Validators.required],
+                // name      : ['', Validators.required],
                 email     : ['', [Validators.required, Validators.email]],
                 password  : ['', Validators.required],
-                company   : [''],
-                agreements: ['', Validators.requiredTrue]
+                // company   : [''],
+                // agreements: ['', Validators.requiredTrue]
             }
         );
     }
@@ -74,31 +74,52 @@ export class AuthSignUpComponent implements OnInit
         // Hide the alert
         this.showAlert = false;
 
+        console.log(this.signUpForm.value);
+
+        this._authSandbox.signUp(this.signUpForm.value);
+        this._authSandbox.getSignUpLoaded$.subscribe(signup => {
+            if (!!signup) {
+                this._router.navigateByUrl('/confirmation-required');
+            }
+        })
+        this._authSandbox.getSignUpFailed$.subscribe(signupFail => {
+            console.log('signupFail', signupFail);
+            if (!!signupFail) {
+                this.signUpForm.enable();
+                // this.signUpNgForm.resetForm();
+                this.alert = {
+                    type   : 'error',
+                    message: 'Something went wrong, please try again.'
+                };
+                this.showAlert = true;
+            }
+        })
+
         // Sign up
-        this._authService.signUp(this.signUpForm.value)
-            .subscribe(
-                (response) => {
+        // this._authService.signUp(this.signUpForm.value)
+        //     .subscribe(
+        //         (response) => {
 
-                    // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
-                },
-                (response) => {
+        //             // Navigate to the confirmation required page
+        //             this._router.navigateByUrl('/confirmation-required');
+        //         },
+        //         (response) => {
 
-                    // Re-enable the form
-                    this.signUpForm.enable();
+        //             // Re-enable the form
+        //             this.signUpForm.enable();
 
-                    // Reset the form
-                    this.signUpNgForm.resetForm();
+        //             // Reset the form
+        //             this.signUpNgForm.resetForm();
 
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Something went wrong, please try again.'
-                    };
+        //             // Set the alert
+        //             this.alert = {
+        //                 type   : 'error',
+        //                 message: 'Something went wrong, please try again.'
+        //             };
 
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
+        //             // Show the alert
+        //             this.showAlert = true;
+        //         }
+        //     );
     }
 }
